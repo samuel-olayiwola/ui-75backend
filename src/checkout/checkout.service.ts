@@ -7,15 +7,14 @@ import axios from 'axios';
 
 @Injectable()
 export class CheckoutService{
-    constructor(
-        @InjectRepository(CheckoutDetails)
-        private readonly checkoutRepository: Repository<CheckoutDetails>,
-      ) {}
-
-      async makePayment(data: any): Promise<any> {
+    
+      async makePayment(amount: number, Nmae:string): Promise<any> {
         try {
-
-          const response = await axios.post('', data);
+          const payload = {
+            amount,
+            name
+          };
+          const response = await axios.post('', payload);
           return response.data;
         } catch (error) {
             

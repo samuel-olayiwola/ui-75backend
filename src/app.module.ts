@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 import { CheckoutController } from './checkout/checkout.controller';
 import { CheckoutService } from './checkout/checkout.service';
+import { DocumentBuilder } from '@nestjs/swagger';
 @Module({
   imports: [
     TypeOrmModule.forRoot(
@@ -14,4 +15,6 @@ import { CheckoutService } from './checkout/checkout.service';
   providers: [CheckoutService],
  
 })
-export class AppModule {}
+export class AppModule {
+
+}
