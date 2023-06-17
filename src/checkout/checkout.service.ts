@@ -15,7 +15,7 @@ export class CheckoutService{
       async makePayment(data: any): Promise<any> {
         try {
 
-          const response = await axios.post('https://remita-checkout-url', data);
+          const response = await axios.post('', data);
           return response.data;
         } catch (error) {
             
