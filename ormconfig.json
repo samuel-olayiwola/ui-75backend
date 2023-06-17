@@ -1,0 +1,19 @@
+{
+  "type": "postgres",
+  "logging": true,
+  "host": "127.0.0.1",
+  "port": 5432,
+  "username": "postgres",
+  "password": "Naecherem@24",
+  "database": "UI75DB",
+  "entities": [
+    "**/*.entity{.ts,.js}"
+  ],
+  "synchronize": true,
+  "migrationsTableName": "migration",
+  "migrationsRun": true,
+  "migrations": [
+    "src/migration/*.ts"
+  ],
+  "ssl": false
+}
