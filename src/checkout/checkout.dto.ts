@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CheckoutDto {
   @ApiProperty()
-  Amount: number;
+  amount: number;
   @ApiProperty()
-  Name:string;
+  name: string;
 }

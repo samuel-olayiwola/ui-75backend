@@ -9,7 +9,7 @@ export class CheckoutController{
 
     @Post()
     async createCheckoutPayment(@Body() checkoutDto:CheckoutDto): Promise<any> {
-      const { Amount,Name} = checkoutDto;
-    return this.remitaCheckoutService.makePayment(Amount,Name);
+      const {amount, name} = checkoutDto;
+    return this.remitaCheckoutService.makePayment(amount, name);
   }
 }
