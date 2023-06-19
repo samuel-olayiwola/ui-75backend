@@ -8,8 +8,8 @@ export class CheckoutDetails{
 
     @ApiProperty()
     @Column()
-    firstame:string;
+    firstName:string;
 
     @Column()
-    LastName:string; 
+    lastName:string; 
 }
