@@ -4,5 +4,12 @@ export class CheckoutDto {
   @ApiProperty()
   amount: number;
   @ApiProperty()
-  name: string;
+  customerId: string;
+  @ApiProperty()
+  firstName: string;
+  @ApiProperty()
+  lastName: string;z
+  @ApiProperty()
+  email: string;
+  
 }

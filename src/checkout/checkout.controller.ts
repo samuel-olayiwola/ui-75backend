@@ -7,9 +7,9 @@ import { CheckoutDto } from './checkout.dto';
 export class CheckoutController{
     constructor(private readonly remitaCheckoutService: CheckoutService) {}
 
-    @Post()
-    async createCheckoutPayment(@Body() checkoutDto:CheckoutDto): Promise<any> {
-      const {amount, name} = checkoutDto;
-    return this.remitaCheckoutService.makePayment(amount, name);
+    @Get()
+    async createCheckoutPayment(): Promise<any> {
+     
+    return this.remitaCheckoutService.makePayment();
   }
 }
