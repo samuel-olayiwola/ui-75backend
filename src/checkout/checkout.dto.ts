@@ -34,3 +34,19 @@ export type CheckoutResponseDto = {
   status: string,
   date: Date
 }
+
+export type CheckoutByHallDto = {
+  firstName: string;
+  lastName: string; 
+  email: string;
+  amount: number;
+  narration: string;
+  transactionID: string;
+  status: string,
+  date: Date
+}
+
+export type CheckoutHallDto = {
+  hallName: string;
+  data: CheckoutByHallDto[]
+}

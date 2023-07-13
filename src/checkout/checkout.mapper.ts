@@ -1,5 +1,5 @@
 import { CheckoutDetails } from "./checkout.entity"
-import { CheckoutResponseDto } from "./checkout.dto"
+import { CheckoutResponseDto, CheckoutHallDto, CheckoutByHallDto } from "./checkout.dto"
 
 export function mapToResponse(details: CheckoutDetails): CheckoutResponseDto{
     const response: CheckoutResponseDto = {
@@ -16,3 +16,27 @@ export function mapToResponse(details: CheckoutDetails): CheckoutResponseDto{
 
     return response
 }
+
+export function groupByHallOfResidence(
+    checkoutResponses: CheckoutResponseDto[]
+  ): CheckoutHallDto[] {
+    const groupedResponses: { [key: string]: CheckoutByHallDto[] } = {};
+  
+    for (const response of checkoutResponses) {
+      const { hallOfResidence, ...data } = response;
+      if (groupedResponses[hallOfResidence]) {
+        groupedResponses[hallOfResidence].push(data);
+      } else {
+        groupedResponses[hallOfResidence] = [data];
+      }
+    }
+  
+    const checkoutList: CheckoutHallDto[] = [];
+    for (const hallName in groupedResponses) {
+      if (Object.prototype.hasOwnProperty.call(groupedResponses, hallName)) {
+        checkoutList.push({ hallName, data: groupedResponses[hallName] });
+      }
+    }
+  
+    return checkoutList;
+  }
