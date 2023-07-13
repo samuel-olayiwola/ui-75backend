@@ -5,11 +5,15 @@ import { CheckoutDto } from './checkout.dto';
 
 @Controller('checkout')
 export class CheckoutController{
-    constructor(private readonly remitaCheckoutService: CheckoutService) {}
+    constructor(private readonly checkoutService: CheckoutService) {}
 
-    @Get()
-    async createCheckoutPayment(): Promise<any> {
-     
-    return this.remitaCheckoutService.makePayment();
+  @Post()
+  saveTransaction(@Body() dto: CheckoutDto){
+          return this.checkoutService.saveTransaction(dto)
+  }
+
+  @Get()
+  getAllTrasactions(){
+    return this.checkoutService.getAllTransactions()
   }
 }

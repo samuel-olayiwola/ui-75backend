@@ -1,14 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CheckoutDetails } from './checkout.entity';
-import axios from 'axios';
-import { CheckoutDto } from './checkout.dto';
+import { CheckoutDto, CheckoutHallDto, CheckoutResponseDto } from './checkout.dto';
+import { groupByHallOfResidence, mapToResponse } from './checkout.mapper';
 
 
 @Injectable()
 export class CheckoutService{
+
+    async saveTransaction(dto: CheckoutDto): Promise<CheckoutResponseDto>{
+        const details = await CheckoutDetails.create({
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+            email: dto.email,
+            amount: dto.amount,
+            narration: dto.narration,
+            hallOfResidence: dto.hallOfResidence,
+            transactionID: dto.transactionID,
+            status: Status.PENDING.toString(),
+            date: new Date()
+        }).save();
     
-      async makePayment(): Promise<any> {
+        return mapToResponse(details)
+    }
+
+    async getAllTransactions(): Promise<CheckoutHallDto[]>{
+        const details = await CheckoutDetails.find();
+        const responses = details.map((detail) => mapToResponse(detail));
+        return groupByHallOfResidence(responses);
+    }
+    
+      /*async makePayment(): Promise<any> {
           // let payload = {
 
           //   key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
@@ -241,6 +262,7 @@ export class CheckoutService{
           </body>
           </html>`
                      return htmlform;
-        } 
-         
+        }*/ 
+
+        
 }
