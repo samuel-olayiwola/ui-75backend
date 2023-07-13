@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CheckoutDetails } from './checkout.entity';
-import { CheckoutDto, CheckoutResponseDto } from './checkout.dto';
-import { mapToResponse } from './checkout.mapper';
+import { CheckoutDto, CheckoutHallDto, CheckoutResponseDto } from './checkout.dto';
+import { groupByHallOfResidence, mapToResponse } from './checkout.mapper';
 
 
 @Injectable()
@@ -18,13 +18,15 @@ export class CheckoutService{
             transactionID: dto.transactionID,
             status: Status.PENDING.toString(),
             date: new Date()
-        }).save()
+        }).save();
     
         return mapToResponse(details)
     }
 
-    getAllTransactions(){
-
+    async getAllTransactions(): Promise<CheckoutHallDto[]>{
+        const details = await CheckoutDetails.find();
+        const responses = details.map((detail) => mapToResponse(detail));
+        return groupByHallOfResidence(responses);
     }
     
       /*async makePayment(): Promise<any> {
