@@ -5,14 +5,17 @@ import { configService } from './config/config.service';
 import { CheckoutController } from './checkout/checkout.controller';
 import { CheckoutService } from './checkout/checkout.service';
 import { DocumentBuilder } from '@nestjs/swagger';
+import { PaystackController } from './paystack/paystack.controller';
+import { PaystackService } from './paystack/paystack.service';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(
      configService.getTypeOrmConfig(), 
     )
   ,CheckoutModule],
-  controllers: [CheckoutController],
-  providers: [CheckoutService],
+  controllers: [CheckoutController, PaystackController],
+  providers: [CheckoutService, PaystackService],
  
 })
 export class AppModule {
