@@ -22,31 +22,59 @@ export class CheckoutDto {
   @ApiProperty()
   transactionID: string
 }
+export class PaystackResponseDto{
+  @ApiProperty()
+  status: boolean;
 
-export type CheckoutResponseDto = {
+  @ApiProperty()
+  message: string; 
+
+  @ApiProperty()
+  data: object;
+}
+
+export class CheckoutResponseDto  {
+  @ApiProperty()
   firstName: string;
+  @ApiProperty()
   lastName: string; 
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   amount: number;
+  @ApiProperty()
   narration: string;
+  @ApiProperty()
   hallOfResidence: string;
+  @ApiProperty()
   transactionID: string;
-  status: string,
+  @ApiProperty()
+  status: string
+  @ApiProperty()
   date: Date
 }
 
-export type CheckoutByHallDto = {
+export class CheckoutByHallDto {
+  @ApiProperty()
   firstName: string;
+  @ApiProperty()
   lastName: string; 
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   amount: number;
   narration: string;
+  @ApiProperty()
   transactionID: string;
-  status: string,
+  @ApiProperty()
+  status: string
+  @ApiProperty()
   date: Date
 }
 
-export type CheckoutHallDto = {
+export class CheckoutHallDto  {
+  @ApiProperty()
   hallName: string;
+  @ApiProperty({type:[CheckoutByHallDto]})
   data: CheckoutByHallDto[]
 }

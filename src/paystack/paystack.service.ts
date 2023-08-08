@@ -2,23 +2,20 @@ import * as https from "https"
 import lodash from "lodash"
 import { PaystackEvents } from "./paystack.events";
 import { HttpException, Injectable } from "@nestjs/common";
+import { CheckoutDto, PaystackResponseDto } from "src/checkout/checkout.dto";
+import { CheckoutService } from "src/checkout/checkout.service";
 
-type InitTransCallbackParams = {
-  access_code: string;
-  reference: string;
-  authorization_url: string
-};
 
 
 @Injectable()
 export class PaystackService {
   private secretKey = process.env.PAYSTACK_SECRET_KEY;
-
+  constructor(private readonly checkoutService: CheckoutService){}
   async initializeTransaction(
     email: string,
     amount: number,
-    narration: string,
-    callback:(input: InitTransCallbackParams) => void
+    details: CheckoutDto,
+    callback:(input: PaystackResponseDto) => void
   ): Promise<void> {
     
     const params = JSON.stringify({
@@ -49,11 +46,9 @@ export class PaystackService {
         paystackRes.on("end", async () => {
           let response = JSON.parse(data);
           console.log(response)
-          if (response.status === true) {
-            const { reference, access_code, authorization_url } = response.data;
-            callback({access_code, reference, authorization_url})
-          } else {
-            throw new HttpException("Transaction could not be initiated", 500);
+          callback(response)
+          if(response.status){
+            await this.checkoutService.saveTransaction(details)
           }
         });
       })
@@ -62,6 +57,7 @@ export class PaystackService {
       });
     paystackReq.write(params);
     paystackReq.end();
+    
   }
 
   async handlePaystackWebhook(event: any): Promise<void>{

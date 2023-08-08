@@ -1,7 +1,8 @@
 import { Controller, Post, Get, Req, Body, Res, HttpException, HttpStatus } from "@nestjs/common";
 import { Request, Response } from "express";
-import { CheckoutResponseDto } from "src/checkout/checkout.dto";
+import { CheckoutDto, PaystackResponseDto } from "src/checkout/checkout.dto";
 import { PaystackService } from "./paystack.service";
+import { ApiResponse } from "@nestjs/swagger";
 
 
 @Controller('transaction')
@@ -9,8 +10,13 @@ export class PaystackController {
   constructor(private readonly paystackService: PaystackService) { }
 
   @Post('initialize')
+  @ApiResponse({
+    status: 200,
+    description: 'Initialize a transacrion',
+    type: PaystackResponseDto, // Specify the DTO class
+  })
   async intializeTx(
-    @Body() dto: CheckoutResponseDto,
+    @Body() dto: CheckoutDto,
     @Req() req: Request,
     @Res() res: Response ) {
     
@@ -19,18 +25,15 @@ export class PaystackController {
       throw new HttpException("email and narration required", 400);
     }
 
-      this.paystackService.initializeTransaction(
+      await this.paystackService.initializeTransaction(
         email,
         amount * 100,
-        narration,
-        ({ access_code, authorization_url }) => {
-          res.status(200).json({
-            access_code, 
-            authorization_url,
-            amount,
-          })
+        dto,
+        (response) => {
+          res.status(response.status? 200:400 ).json(response)
         }
       );
+      
   }
 
 
